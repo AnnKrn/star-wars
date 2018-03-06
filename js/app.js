@@ -1,7 +1,7 @@
 // primer request
 function dataRequest() {
-    fetch(`https://swapi.co/api/films/?format=json`).then(function(data){
-        return data.json().then(function(json){
+    fetch(`https://swapi.co/api/films/?format=json`, {method:"GET"}).then(function(data){
+        data.json().then(function(json){
             getSWInfo(json)
         });
     });
@@ -10,6 +10,7 @@ dataRequest()
 
 function getSWInfo(json) {
     const arrayMovies = json.results;
+    ;
     arrayMovies.forEach((movie, index) => {
         // console.log(index)
         const movieTitle = movie.title;
@@ -17,29 +18,36 @@ function getSWInfo(json) {
         const movieDescription = movie.opening_crawl;     
         const arrayCharacters = movie.characters
 
-        paintMovies(movieTitle, movieDescription, episode, arrayCharacters)
+        const moviePhotos = photos[index];
+        // console.log(arrayCharacters)
+        paintMovies(movieTitle, movieDescription, episode, arrayCharacters, moviePhotos)
     });
 };
 
 // function listCharactersRequest(character) {
-//     console.log(character)
+//     // console.log(character)
 //     fetch(`${character}`).then(function(response){
 //         return response.json().then(function(jsonCh){
-//             let getCharacterInfo = function(jsonCh) {
+//             let getCharacterInfo = jsonCh => {
+//                 console.log(jsonCh.name)
 //                 return jsonCh.name
 //             };
 //         })
 //     });
 // };
 
-function paintMovies (movieTitle, movieDescription, episode, arrayCharacters){
+// getCharacterInfo();
+
+
+function paintMovies (movieTitle, movieDescription, episode, arrayCharacters,moviePhotos){
+    // console.log(photos)
     // console.log(arrayCharacters)
     let listCharacteres = ``
     arrayCharacters.forEach(character => {
-        console.log(character)
+        // console.log(character)
         // listCharactersRequest(character)
-        listCharacteres += `<a class="character-modal" data-toggle="modal" data-target="#character_info" data-character="${character}" href=""><li>${/*getCharacterInfo*/character}</li></a>`
-    })
+        listCharacteres += `<a class="character-modal" data-toggle="modal" data-target="#character_info" data-character="${character}" href=""><li>${/*getCharacterInfo()*/ character}</li></a>`
+    });
 
     let templete = `<div class="panel panel-default col-md-3 col-md-offset-1">
     <div class="panel-heading">
@@ -50,7 +58,7 @@ function paintMovies (movieTitle, movieDescription, episode, arrayCharacters){
             <h5 id="movie_description">${movieDescription}</h5>
         </div>
         <div class="row">
-            <img class="col-md-12" src="https://dummyimage.com/300x300" alt="">
+            <img class="col-md-12" src="${moviePhotos}" alt="${movieTitle}">
         </div>
         <div class="row">
             <p>Personajes</p>
