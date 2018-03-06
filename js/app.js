@@ -15,17 +15,31 @@ function getSWInfo(json) {
         const movieTitle = movie.title;
         const episode = movie.episode_id;        
         const movieDescription = movie.opening_crawl;     
-        const arrayCharacters = movie.characters[0]
-        console.log(arrayCharacters)
-        // arrayCharacters.forEach((item, index) => {
-        //     // charactersRequest(item)
-        //     // console.log(index)
-        // });
+        const arrayCharacters = movie.characters
+
         paintMovies(movieTitle, movieDescription, episode, arrayCharacters)
     });
 };
 
+// function listCharactersRequest(character) {
+//     console.log(character)
+//     fetch(`${character}`).then(function(response){
+//         return response.json().then(function(jsonCh){
+//             let getCharacterInfo = function(jsonCh) {
+//                 return jsonCh.name
+//             };
+//         })
+//     });
+// };
+
 function paintMovies (movieTitle, movieDescription, episode, arrayCharacters){
+    // console.log(arrayCharacters)
+    let listCharacteres = ``
+    arrayCharacters.forEach(character => {
+        console.log(character)
+        // listCharactersRequest(character)
+        listCharacteres += `<a class="character-modal" data-toggle="modal" data-target="#character_info" data-character="${character}" href=""><li>${/*getCharacterInfo*/character}</li></a>`
+    })
 
     let templete = `<div class="panel panel-default col-md-3 col-md-offset-1">
     <div class="panel-heading">
@@ -40,9 +54,7 @@ function paintMovies (movieTitle, movieDescription, episode, arrayCharacters){
         </div>
         <div class="row">
             <p>Personajes</p>
-            <ul id="characters" >
-                <a class="character-modal" data-toggle="modal" data-target="#character_info" data-character="${arrayCharacters}" href=""><li>${arrayCharacters}</li></a>
-            </ul>
+            <ul id="characters">${listCharacteres}</ul>
         </div>
     </div>
 </div>`
@@ -57,17 +69,16 @@ $(document).on("click", ".character-modal", showModal);
 function showModal() {
     let characterToShow = $(this).data("character");
     console.log(characterToShow)
-    charactersRequest(characterToShow);  
-   
+    charactersRequest(characterToShow);     
 };
 
 function charactersRequest(characterToShow) {
         fetch(`${characterToShow}`).then(function(response){
             return response.json().then(function(jsonCharac){
-                console.log(jsonCharac)
+                // console.log(jsonCharac)
                 // painCharacter(jsonCharac)
                 getModalInfo(jsonCharac)
-            });
+            })
         });
 };
 
