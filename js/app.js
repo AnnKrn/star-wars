@@ -12,7 +12,7 @@ function getSWInfo(json) {
     const arrayMovies = json.results;
     ;
     arrayMovies.forEach((movie, index) => {
-        // console.log(index)
+        console.log(movie.characters[0])
         const movieTitle = movie.title;
         const episode = movie.episode_id;        
         const movieDescription = movie.opening_crawl;     
@@ -24,73 +24,51 @@ function getSWInfo(json) {
     });
 };
 
-// function listCharactersRequest(character) {
-//     // console.log(character)
-//     fetch(`${character}`).then(function(response){
-//         return response.json().then(function(jsonCh){
-//             let getCharacterInfo = jsonCh => {
-//                 console.log(jsonCh.name)
-//                 return jsonCh.name
-//             };
-//         })
-//     });
-// };
-
-// getCharacterInfo();
-
-
 function paintMovies (movieTitle, movieDescription, episode, arrayCharacters,moviePhotos){
-    // console.log(photos)
-    // console.log(arrayCharacters)
+    
     let listCharacteres = ``
     arrayCharacters.forEach(character => {
-        // console.log(character)
-        // listCharactersRequest(character)
-        listCharacteres += `<a class="character-modal" data-toggle="modal" data-target="#character_info" data-character="${character}" href=""><li>${/*getCharacterInfo()*/ character}</li></a>`
+        listCharacteres += `<li><a class="character-modal" data-toggle="modal" data-target="#character_info" data-character="${character}" href="">Descubre quien soy</a></li>`
     });
 
-    let templete = `<div class="panel panel-default col-md-3 col-md-offset-1">
-    <div class="panel-heading">
-        <h3 class="panel-title">Episodio: ${episode} - ${movieTitle}</h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <h5 id="movie_description">${movieDescription}</h5>
+    let templete = `
+    <div class="col-md-6 col-xs-12">
+        <div class="media yellow-letter">
+            <div class="media-left media-top">
+                <img class="media-object movie-picture" src="${moviePhotos}" alt="${movieTitle}">
+            </div>
+            <div class="media-body">
+                <h3 class="media-heading">Episodio: ${episode} - ${movieTitle}</h3>
+                <p id="movie_description">${movieDescription}</p>
+                <h5>Characters</h5>
+                <ul id="characters">
+                 ${listCharacteres}
+                </ul>
+            </div>
         </div>
-        <div class="row">
-            <img class="col-md-12" src="${moviePhotos}" alt="${movieTitle}">
-        </div>
-        <div class="row">
-            <p>Personajes</p>
-            <ul id="characters">${listCharacteres}</ul>
-        </div>
-    </div>
-</div>`
+    </div>`
 
     const moviesContainer = document.getElementById('movie_container');
     moviesContainer.innerHTML += templete  
-    // charactersRequest(arrayCharacters);  
 };
 
 $(document).on("click", ".character-modal", showModal);
 
 function showModal() {
     let characterToShow = $(this).data("character");
-    console.log(characterToShow)
     charactersRequest(characterToShow);     
 };
 
 function charactersRequest(characterToShow) {
-        fetch(`${characterToShow}`).then(function(response){
+        fetch(`${characterToShow}`, {answer: 5}).then(function(response){
             return response.json().then(function(jsonCharac){
-                // console.log(jsonCharac)
-                // painCharacter(jsonCharac)
                 getModalInfo(jsonCharac)
             })
         });
 };
 
 function getModalInfo(jsonCharac) {
+    console.log(jsonCharac)
     const name = jsonCharac.name;
     const height = jsonCharac.height;
     const hairColor = jsonCharac.hair_color;
@@ -101,36 +79,26 @@ function getModalInfo(jsonCharac) {
 };
 
 function painModal(name, height, hairColor, mass, skinColor) {
-    const modalTemplete = `<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h1 id="character" class="modal-title text-center">${name}</h1>
-</div>
-<div class="modal-body">
-    <div class="row">
-        <div class="col-md-5">
-            <img id="character_image" class="text-center" src="https://dummyimage.com/300x300" alt="">
-        </div>
-        <div class="col-md-7">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <h5 class="col-md-6">Height: <span id="height">${height}</span></h5>
-                        <h5 class="col-md-6">Weight: <span id="mass">${mass}</span></h5>
-                        <h5 class="col-md-6">Hair: <span id="hair_color">${hairColor}</span></h5>
-                        <h5 class="col-md-6">Skyn: <span id="skin_color">${skinColor}</span></h5>
-                    </div>
-                </div>
+    const modalTemplete = `
+    <div class="modal-header yellow-letter">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h1 id="character" class="modal-title text-center">${name}</h1>
+    </div>
+    <div class="modal-body yellow-letter">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-2">
+                <img id="character_image" class="text-center img-responsive" src="assets/sw.jpg" alt="">
             </div>
-        </div>
-    </div>`
+            <div class="col-md-4">
+                <div class="row">
+                    <h2 class="col-md-12 text-center">Height: <span id="height">${height}</span></h2>
+                    <h2 class="col-md-12 text-center">Mass: <span id="mass">${mass}</span></h2>
+                    <h2 class="col-md-12 text-center">Hair color: <span id="hair_color">${hairColor}</span></h2>
+                    <h2 class="col-md-12 text-center">Skyn color: <span id="skin_color">${skinColor}</span></h2>
+                </div>   
+            </div>
+        </div>`
 
     const modalContainer = document.getElementById('modal_container');
     modalContainer.innerHTML = modalTemplete
 };
-// function painCharacter(jsonCharac) {
-//     const characterName = jsonCharac.name;
-//     templeteCharacter = `<li>${characterName}</li>`
-
-//     const characterContainer = document.getElementById('characters')
-//     characterContainer.innerHTML += characterName
-// };

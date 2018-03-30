@@ -1,10 +1,26 @@
-/* * {
-    background-color: black;
-    color: rgb(160, 145, 145);
-} */
+body {
+    background-color: black !important;
+}
+
+.swLetter {
+    /* font-size: 500 em;     */
+    color: #6BBCBD;
+}
+
+.yellow-letter {
+    color: #D6CD1C;
+}
 
 #logo {
-    height:100px;
-    weight:100px;
+    max-width: 10%; 
+    height: auto;   
 }
+.movie-picture {
+    max-width: 200px;
+}
+
+.modal-back {
+    background-color: grey !important;
+}
+
 
