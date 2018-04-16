@@ -1,4 +1,4 @@
-## Star Wars page powered by SWAPI
+# Star Wars page powered by SWAPI
 
 This is a page for the Star Wars franchise fans. 
 #### May the code be with you...
